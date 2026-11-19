@@ -1,0 +1,13 @@
+# 기본은 LF
+* text=auto eol=lf
+
+# 윈도우에서 실행하는 파일은 저장한 바이트 그대로 둔다
+# (.bat = CRLF + chcp 65001, .ps1 = UTF-8 BOM. 받은 사람 PC에서 그대로 돌게)
+*.bat -text
+*.cmd -text
+*.ps1 -text
+
+# 그림
+*.png binary
+*.jpg binary
+*.ico binary

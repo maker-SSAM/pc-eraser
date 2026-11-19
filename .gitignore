@@ -1,0 +1,11 @@
+# OS가 만드는 파일
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# PC별 개인 설정
+.claude/settings.local.json
+
+# 점검 결과(그 PC의 계정 이름 등이 들어갈 수 있음)
+*-점검결과*.txt
+*-report*.txt
