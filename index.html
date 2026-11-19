@@ -179,6 +179,40 @@ ul.checks input:checked + .txt > b { text-decoration: line-through; text-decorat
 footer { margin-top: 28px; font-size: 14px; color: var(--ink-soft); }
 footer p { margin: 4px 0; }
 
+/* 단계 안의 차례 */
+ol.howto { margin: 6px 0 2px; padding-left: 22px; font-size: 15.5px; }
+ol.howto li { margin: 2px 0; }
+ol.howto li::marker { color: var(--accent); font-weight: 700; }
+.tip { display: block; font-size: 14.5px; color: var(--ink-soft); margin-top: 4px; }
+.tip::before { content: "도움말 · "; font-weight: 700; color: var(--accent); }
+
+/* 로그인 종류 */
+.kinds { margin: 4px 0 14px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.kinds h3 { margin: 0; padding: 10px 14px; font-size: 16px; background: var(--accent-soft); }
+.kinds-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+.kind { padding: 10px 14px; border-top: 1px solid var(--line); font-size: 15px; }
+.kind + .kind { border-left: 1px solid var(--line); }
+.kind .k { display: block; font-size: 16px; margin-bottom: 2px; }
+.kind .go { display: inline-block; margin-top: 6px; font-size: 13.5px; font-weight: 700; color: var(--accent); }
+.kinds .ex { margin: 0; padding: 10px 14px; border-top: 1px solid var(--line); font-size: 15px; color: var(--ink-soft); }
+
+/* 브라우저 탭 */
+.tabs { display: flex; gap: 6px; margin: 14px 0 0; border-bottom: 2px solid var(--line); }
+.tabs button {
+  border-radius: 10px 10px 0 0; border-bottom: 0; margin-bottom: -2px;
+  padding: 7px 16px; font-size: 15.5px; font-weight: 700; color: var(--ink-soft);
+}
+.tabs button[aria-selected="true"] { color: var(--accent); background: var(--accent-soft); border-color: var(--accent); border-bottom: 2px solid var(--accent-soft); }
+.tabpanel { padding-top: 6px; }
+.tabpanel[hidden] { display: none; }
+.tabpanel h3 { display: none; font-size: 16px; margin: 10px 0 0; }
+
+@media (max-width: 520px) {
+  .kinds-grid { grid-template-columns: 1fr; }
+  .kind + .kind { border-left: 0; }
+  .tabs button { flex: 1; padding: 7px 6px; }
+}
+
 @media (max-width: 520px) {
   body { font-size: 16px; }
   header h1 { font-size: 25px; }
@@ -194,6 +228,9 @@ footer p { margin: 4px 0; }
   .body { display: block !important; padding-left: 16px; }
   .wrap { padding: 0; }
   a { color: inherit; }
+  .tabs { display: none; }
+  .tabpanel, .tabpanel[hidden] { display: block !important; }
+  .tabpanel h3 { display: block; }
 }
 </style>
 </head>
@@ -244,8 +281,8 @@ footer p { margin: 4px 0; }
       <li><label><input type="checkbox" data-id="s1-2"><span class="txt"><b>개인 파일 옮기기</b> — 바탕화면·문서·다운로드·사진 폴더의 개인 파일을 USB나 개인 클라우드로.</span></label></li>
       <li><label><input type="checkbox" data-id="s1-3"><span class="txt"><b>업무 파일은 학교 방식대로</b> — 인계할 파일, 학교 공유 폴더에 둘 파일을 정리해 두세요.</span></label></li>
       <li><label><input type="checkbox" data-id="s1-4"><span class="txt"><b>개인 북마크 내보내기</b> — 브라우저 동기화를 안 썼다면 북마크 관리자에서 '내보내기'로 저장해 두세요.</span></label></li>
+      <li><label><input type="checkbox" data-id="s1-5"><span class="txt"><b>업무용 개인 인증서(GPKI) 옮기기</b> — 내 이름으로 발급된 행정전자서명 인증서도 개인 인증서예요. 7단계에서 지우기 전에 USB 등에 옮겨 두세요.<span class="where">위치: <code>C:\GPKI\Certificate\class2</code> 안의 내 이름이 들어간 파일</span></span></label></li>
     </ul>
-    <div class="warn ask"><p><span class="tag ask">물어보기</span><b>내 이름으로 된 업무용 인증서</b>(행정전자서명 GPKI 개인용)는 새 학교에서도 쓰는지 학교·교육청 지침을 확인하고, 필요하면 함께 옮기세요.</p></div>
   </div>
 </details>
 
@@ -267,11 +304,22 @@ footer p { margin: 4px 0; }
   <summary><span class="num">3</span><span class="step-title">앱 로그아웃<small>지우기 전에 앱 안에서 로그아웃</small></span><span class="count"></span><span class="chev" aria-hidden="true"></span></summary>
   <div class="body">
     <p class="why">앱을 지우기만 하면 로그인 정보가 PC에 남을 수 있어요. 먼저 앱 안에서 로그아웃합니다.</p>
+
+    <div class="kinds">
+      <h3>로그인은 세 가지예요 — 따로따로 정리해야 해요</h3>
+      <div class="kinds-grid">
+        <div class="kind"><strong class="k">앱 로그인</strong>PC에 <b>설치한 프로그램</b> 안에서 한 로그인. 예: 카카오톡 PC, 구글 드라이브 앱, 노션 앱.<br><span class="go">→ 3단계(여기)</span></div>
+        <div class="kind"><strong class="k">브라우저 로그인</strong>크롬·엣지·웨일 <b>브라우저 자체</b>에 계정을 연결한 것. 오른쪽 위에 내 사진·이름이 보이고, 북마크·비밀번호가 동기화돼요.<br><span class="go">→ 4단계 (가)</span></div>
+        <div class="kind"><strong class="k">사이트 로그인</strong>브라우저로 네이버·다음·구글 메일 같은 <b>웹사이트</b>에 들어가 한 로그인. 사이트 화면 오른쪽 위에 내 이름이 보여요.<br><span class="go">→ 4단계 (나) 쿠키 지우기</span></div>
+      </div>
+      <p class="ex">예: 크롬에 로그인(브라우저 로그인)하지 않았어도 네이버 메일에 로그인(사이트 로그인)한 기록은 남아요. 카카오톡 PC는 앱이라 브라우저를 정리해도 그대로 남아요.</p>
+    </div>
+
     <ul class="checks">
-      <li><label><input type="checkbox" data-id="s3-1"><span class="txt"><b>카카오톡 PC</b> — 설정에서 로그아웃.<span class="where">휴대폰 카카오톡의 '기기 연결 관리'에서도 이 PC가 빠졌는지 확인</span></span></label></li>
-      <li><label><input type="checkbox" data-id="s3-2"><span class="txt"><b>개인 클라우드</b> — 구글 드라이브, 네이버 MYBOX, 드롭박스 등에서 로그아웃(계정 연결 해제)</span></label></li>
-      <li><label><input type="checkbox" data-id="s3-3"><span class="txt"><b>한컴독스(한컴스페이스)</b> — 한글 프로그램 오른쪽 위 계정에서 로그아웃</span></label></li>
-      <li><label><input type="checkbox" data-id="s3-4"><span class="txt"><b>그 밖에 내 계정으로 로그인한 앱</b> — 어도비, 노션, 메모 앱, 디자인 앱 등</span></label></li>
+      <li><label><input type="checkbox" data-id="s3-0"><span class="txt"><b>로그인한 앱 찾기</b><ol class="howto"><li>작업 표시줄 오른쪽 아래 <b>^</b>(숨겨진 아이콘 표시)를 눌러 실행 중인 앱을 봅니다.</li><li>시작 메뉴의 앱 목록도 훑어봅니다.</li><li>내 계정으로 로그인한 앱을 아래에서 하나씩 로그아웃합니다.</li></ol></span></label></li>
+      <li><label><input type="checkbox" data-id="s3-1"><span class="txt"><b>카카오톡 PC</b> — 카카오톡 PC 설정에서 로그아웃.<span class="where">가장 확실한 방법: 휴대폰 카카오톡 → 설정 → 기기 연결 관리에서 이 PC 로그아웃</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s3-2"><span class="txt"><b>개인 클라우드 앱</b> — 구글 드라이브, 네이버 MYBOX, 드롭박스 등에서 로그아웃(계정 연결 해제)<span class="where">보통 작업 표시줄 아이콘 → 톱니(설정)에 있어요.</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s3-4"><span class="txt"><b>그 밖에 내 계정으로 로그인한 앱</b> — 어도비, 노션, 줌, 메모·디자인 앱 등. 보통 앱 오른쪽 위 내 사진(계정) → 로그아웃.<span class="tip">한컴독스는 대부분 학교에 기본으로 설치돼 있어요. 내가 직접 로그인한 적이 있을 때만 로그아웃하면 됩니다.</span></span></label></li>
     </ul>
     <div class="warn keep"><p><span class="tag keep">지우지 않기</span><b>학교 메신저, 업무포털, 나이스·에듀파인 관련 프로그램</b>은 그대로 두세요.</p></div>
   </div>
@@ -280,16 +328,91 @@ footer p { margin: 4px 0; }
 <details class="step" id="s4">
   <summary><span class="num">4</span><span class="step-title">브라우저 정리<small>크롬·엣지·웨일 각각</small></span><span class="count"></span><span class="chev" aria-hidden="true"></span></summary>
   <div class="body">
-    <p class="why">동기화를 먼저 끄지 않고 지우면 다른 기기의 북마크·비밀번호까지 지워질 수 있어요. 순서대로 해 주세요. 쓰는 브라우저마다 반복합니다.</p>
+    <p class="why">동기화를 먼저 끄지 않고 지우면 다른 기기의 북마크·비밀번호까지 지워질 수 있어요. <b>(가) 동기화 끄기·로그아웃 → (나) 저장된 정보 지우기 → (다) 프로필 삭제</b> 순서로, 쓰는 브라우저마다 반복합니다. 잘 안 쓰는 브라우저에도 로그인이 남아 있을 수 있어요.</p>
     <ul class="checks">
-      <li><label><input type="checkbox" data-id="s4-1"><span class="txt"><b>프로필이 몇 개인지 보기</b> — 오른쪽 위 프로필 그림을 누르면 이 PC의 프로필이 모두 보여요.</span></label></li>
-      <li><label><input type="checkbox" data-id="s4-2"><span class="txt"><b>동기화 끄기 → 로그아웃</b><span class="where">설정 → (크롬) 나와 Google / (엣지·웨일) 프로필·계정 → 동기화 끄기, 로그아웃</span></span></label></li>
-      <li><label><input type="checkbox" data-id="s4-3"><span class="txt"><b>저장된 비밀번호·쿠키·자동 완성 지우기</b> — <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Delete</kbd>, 기간 '전체 기간'. 비밀번호·자동 완성은 '고급'에 있어요.</span></label></li>
-      <li><label><input type="checkbox" data-id="s4-4"><span class="txt"><b>개인 프로필 삭제</b> — 프로필 관리 화면에서 내 프로필을 삭제</span></label></li>
-      <li><label><input type="checkbox" data-id="s4-5"><span class="txt"><b>크롬·엣지·웨일 모두 했는지</b> — 잘 안 쓰는 브라우저에도 로그인이 남아 있을 수 있어요.</span></label></li>
+      <li><label><input type="checkbox" data-id="s4-1"><span class="txt"><b>프로필이 몇 개인지 보기</b> — 브라우저 오른쪽 위 프로필 그림을 누르면 이 PC의 프로필이 모두 보여요. 내 사진·이름·메일이 보이는 프로필이 정리할 대상이에요.</span></label></li>
     </ul>
+
+    <div class="tabs" role="tablist" aria-label="브라우저 고르기">
+      <button type="button" role="tab" id="tab-chrome" aria-controls="panel-chrome" aria-selected="true">크롬</button>
+      <button type="button" role="tab" id="tab-edge" aria-controls="panel-edge" aria-selected="false">엣지</button>
+      <button type="button" role="tab" id="tab-whale" aria-controls="panel-whale" aria-selected="false">웨일</button>
+    </div>
+
+    <div class="tabpanel" id="panel-chrome" role="tabpanel" aria-labelledby="tab-chrome">
+      <h3>크롬</h3>
+      <ul class="checks">
+        <li><label><input type="checkbox" data-id="s4-c1"><span class="txt"><b>(가) 동기화 끄기·로그아웃</b><ol class="howto">
+          <li>오른쪽 위 <b>⋮</b> → <b>설정</b></li>
+          <li>왼쪽 <b>계정 및 동기화</b> (예전 버전은 '나와 Google')</li>
+          <li>'동기화 사용 중'이면 <b>사용 중지</b>, 동기화가 없으면 <b>로그아웃</b></li>
+          <li>확인 창에 <b>'이 기기에서 북마크, 방문 기록, 비밀번호 등을 삭제합니다'</b>가 보이면 체크한 뒤 확인</li>
+        </ol><span class="tip">이렇게 해도 구글 계정에 저장된 북마크·비밀번호는 그대로예요. 지워지는 것은 이 PC의 사본뿐입니다.</span></span></label></li>
+        <li><label><input type="checkbox" data-id="s4-c2"><span class="txt"><b>(나) 저장된 비밀번호·쿠키·자동 완성 지우기</b><ol class="howto">
+          <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Delete</kbd> (또는 <b>⋮</b> → <b>인터넷 사용 기록 삭제</b>)</li>
+          <li>기간: <b>전체 기간</b></li>
+          <li><b>고급</b> 탭(또는 '더보기')에서 모두 체크 — 특히 <b>쿠키 및 기타 사이트 데이터</b>, <b>비밀번호 및 기타 로그인 데이터</b>, <b>자동 완성 양식 데이터</b></li>
+          <li><b>데이터 삭제</b></li>
+          <li>확인: <b>⋮</b> → 설정 → <b>자동 완성 및 비밀번호</b> → <b>Google 비밀번호 관리자</b>에 남은 비밀번호가 없는지 보기</li>
+        </ol></span></label></li>
+        <li><label><input type="checkbox" data-id="s4-c3"><span class="txt"><b>(다) 내 프로필 삭제</b><ol class="howto">
+          <li>오른쪽 위 프로필 그림 → <b>프로필 관리</b>(톱니)</li>
+          <li>지울 프로필 카드의 <b>⋮</b> → <b>삭제</b></li>
+          <li>확인 창에서 다시 <b>삭제</b></li>
+        </ol></span></label></li>
+      </ul>
+    </div>
+
+    <div class="tabpanel" id="panel-edge" role="tabpanel" aria-labelledby="tab-edge" hidden>
+      <h3>엣지</h3>
+      <ul class="checks">
+        <li><label><input type="checkbox" data-id="s4-e1"><span class="txt"><b>(가) 동기화 끄기·로그아웃</b><ol class="howto">
+          <li>오른쪽 위 <b>⋯</b> → <b>설정</b></li>
+          <li>왼쪽 <b>프로필</b> → <b>동기화</b> → <b>동기화 끄기</b></li>
+          <li>다시 <b>프로필</b> 화면으로 와서 <b>로그아웃</b></li>
+          <li>확인 창에 '이 디바이스에서 즐겨찾기, 기록, 암호 등을 지우기' 같은 선택이 보이면 체크한 뒤 로그아웃</li>
+        </ol><span class="tip">회사·학교 계정으로 윈도우와 함께 로그인된 프로필은 로그아웃이 막혀 있을 수 있어요. 그럴 땐 (나)만 하고 정보 담당 선생님께 여쭤 보세요.</span></span></label></li>
+        <li><label><input type="checkbox" data-id="s4-e2"><span class="txt"><b>(나) 저장된 암호·쿠키·자동 채우기 지우기</b><ol class="howto">
+          <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Delete</kbd> (또는 설정 → <b>개인 정보, 검색 및 서비스</b> → <b>검색 데이터 지우기</b>)</li>
+          <li>시간 범위: <b>모든 시간</b></li>
+          <li>모두 체크 — 특히 <b>쿠키 및 기타 사이트 데이터</b>, <b>암호</b>, <b>자동 채우기 양식 데이터</b></li>
+          <li><b>지금 지우기</b></li>
+          <li>확인: 설정 → <b>프로필</b> → <b>암호</b>(또는 Microsoft 지갑 → 암호)에 남은 암호가 없는지 보기</li>
+        </ol></span></label></li>
+        <li><label><input type="checkbox" data-id="s4-e3"><span class="txt"><b>(다) 내 프로필 제거</b><ol class="howto">
+          <li><b>⋯</b> → 설정 → <b>프로필</b></li>
+          <li>지울 프로필 오른쪽 <b>⋯</b> → <b>제거</b></li>
+          <li>확인 창에서 다시 <b>제거</b></li>
+        </ol></span></label></li>
+      </ul>
+    </div>
+
+    <div class="tabpanel" id="panel-whale" role="tabpanel" aria-labelledby="tab-whale" hidden>
+      <h3>웨일</h3>
+      <ul class="checks">
+        <li><label><input type="checkbox" data-id="s4-w1"><span class="txt"><b>(가) 동기화 끄기·로그아웃</b><ol class="howto">
+          <li>오른쪽 위 메뉴(점 세 개) → <b>설정</b></li>
+          <li><b>계정 및 동기화</b>(또는 '동기화') 항목</li>
+          <li>동기화 <b>중지</b> → <b>로그아웃</b></li>
+          <li>확인 창에 <b>'이 기기에서 북마크, 방문 기록, 비밀번호 등을 삭제합니다'</b>가 보이면 체크한 뒤 확인</li>
+        </ol><span class="tip">웨일 브라우저 로그인과 네이버 사이트 로그인은 따로예요. 네이버 사이트 로그인은 (나)에서 쿠키를 지우면 풀려요.</span></span></label></li>
+        <li><label><input type="checkbox" data-id="s4-w2"><span class="txt"><b>(나) 저장된 비밀번호·쿠키·자동 완성 지우기</b><ol class="howto">
+          <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Delete</kbd> (또는 메뉴 → <b>인터넷 사용 기록 삭제</b>)</li>
+          <li>기간: <b>전체 기간</b></li>
+          <li><b>고급</b>에서 모두 체크 — 특히 <b>쿠키 및 기타 사이트 데이터</b>, <b>비밀번호</b>, <b>자동 완성 데이터</b></li>
+          <li>삭제 버튼 누르기</li>
+          <li>확인: 설정 → <b>자동 완성 및 비밀번호</b> → <b>비밀번호 관리</b>에 남은 비밀번호가 없는지 보기</li>
+        </ol></span></label></li>
+        <li><label><input type="checkbox" data-id="s4-w3"><span class="txt"><b>(다) 내 프로필 삭제</b><ol class="howto">
+          <li>오른쪽 위 프로필 그림 → <b>네이버 웨일 프로필 관리</b></li>
+          <li>지울 프로필의 <b>⋮</b> → <b>프로필 삭제</b></li>
+        </ol></span></label></li>
+      </ul>
+      <div class="warn keep"><p><span class="tag keep">누르지 않기</span>웨일의 <b>'동기화 재설정'</b>은 <b>서버(내 계정)에 저장된 북마크·비밀번호를 지웁니다.</b> 휴대폰·집 PC의 웨일에서도 사라져요. 이 PC만 정리할 때는 누르지 마세요.</p></div>
+    </div>
+
     <div class="warn ask"><p><span class="tag ask">물어보기</span><b>웨일 스페이스·학교 마이크로소프트 계정</b>처럼 내 이름의 교육용 계정으로 로그인한 프로필은 정리해도 되는지 확인하세요.</p></div>
-    <div class="warn must"><p><span class="tag must">꼭 확인</span>브라우저 화면에는 안 보이는데 <b>예전 프로필 폴더가 PC에 남아 있는 경우</b>가 있습니다(실제 학교 PC에서 확인됨). 아래 2단계 점검 프로그램으로 찾을 수 있게 준비하고 있어요.</p></div>
+    <div class="warn must"><p><span class="tag must">꼭 확인</span>브라우저 화면에는 안 보이는데 <b>예전 프로필 폴더가 PC에 남아 있는 경우</b>가 있습니다(실제 학교 PC에서 확인됨). 아래 2단계 점검 프로그램으로 찾을 수 있게 준비하고 있어요.</p><p><span class="tag must">꼭 확인</span>'동기화 재설정', 구글 계정의 '동기화 데이터 삭제'처럼 <b>계정(서버) 쪽을 지우는 버튼</b>은 이 PC 정리에 필요 없어요. 다른 기기의 자료까지 사라집니다.</p></div>
   </div>
 </details>
 
@@ -325,17 +448,25 @@ footer p { margin: 4px 0; }
 <details class="step" id="s7">
   <summary><span class="num">7</span><span class="step-title">인증서 정리<small>1단계에서 백업한 뒤에</small></span><span class="count"></span><span class="chev" aria-hidden="true"></span></summary>
   <div class="body">
-    <p class="why">개인 공동인증서와 업무용 인증서는 <b>있는 폴더가 다릅니다.</b></p>
+    <p class="why">개인 인증서는 두 곳에 있어요. 은행 등에서 쓰는 <b>공동인증서(NPKI)</b>와, 내 이름으로 발급된 <b>업무용 개인 인증서(GPKI class2)</b>입니다. <b>둘 다 개인 인증서라 지우는 것을 권장합니다.</b> 1단계에서 옮겨 두었는지 먼저 확인하세요.</p>
     <ul class="checks">
-      <li><label><input type="checkbox" data-id="s7-1"><span class="txt"><b>개인 공동인증서 삭제</b> — 은행·인증서 프로그램의 '인증서 관리 → 삭제'로 지우세요. 백업이 됐는지 먼저 확인!<span class="where">개인 인증서 폴더: <code>C:\Users\(내 이름)\AppData\LocalLow\NPKI</code>, <code>C:\Program Files\NPKI</code> (이쪽은 관리자가 필요할 수 있어요)</span></span></label></li>
-      <li><label><input type="checkbox" data-id="s7-2"><span class="txt"><b>휴대폰·USB에 옮긴 인증서로 로그인이 되는지</b> 한 번 확인</span></label></li>
+      <li><label><input type="checkbox" data-id="s7-2"><span class="txt"><b>옮긴 인증서가 되는지 먼저 확인</b> — USB·휴대폰에 옮긴 인증서로 은행·업무 사이트 로그인이 되는지 한 번 해 보세요.</span></label></li>
+      <li><label><input type="checkbox" data-id="s7-1"><span class="txt"><b>공동인증서(NPKI) 삭제</b><ol class="howto">
+        <li>은행·인증서 프로그램의 <b>인증서 관리</b> → 내 인증서 선택 → <b>삭제</b></li>
+        <li>또는 파일 탐색기 주소창에 <code>%USERPROFILE%\AppData\LocalLow\NPKI</code> 입력 → 인증 기관 폴더(yessign, KICA 등) 안 <code>USER</code> 폴더에서 내 이름이 들어간 폴더 삭제</li>
+      </ol><span class="where"><code>C:\Program Files\NPKI</code>에도 있을 수 있어요. 이쪽은 관리자 권한이 필요할 수 있으니 정보 담당 선생님께 부탁하세요.</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s7-3"><span class="txt"><b>업무용 개인 인증서(GPKI class2) 삭제</b><ol class="howto">
+        <li>파일 탐색기 주소창에 <code>C:\GPKI\Certificate\class2</code> 입력</li>
+        <li>파일 이름에 <b>내 이름</b>이 들어간 파일을 찾습니다. 보통 4개 한 벌이에요: <code>…_sig.cer</code>, <code>…_sig.key</code>, <code>…_env.cer</code>, <code>…_env.key</code></li>
+        <li>내 인증서를 묶어 둔 압축 파일(<code>.zip</code>)이 있으면 그것도 함께</li>
+        <li>선택 → <b>삭제</b> → 휴지통 비우기(8단계)</li>
+      </ol></span></label></li>
     </ul>
     <div class="warn keep">
-      <p><span class="tag keep">지우지 않기</span><b><code>C:\GPKI</code> 폴더</b>는 업무용(행정전자서명) 인증서 자리예요. 그중 <code>Certificate\class1</code>은 <b>학교 기관 인증서</b>입니다. 관리자 없이도 지워지는 폴더라 특히 조심하세요.</p>
+      <p><span class="tag keep">지우지 않기</span><code>C:\GPKI\Certificate\<b>class1</b></code>은 <b>학교 기관 인증서</b>입니다(파일 이름에 학교 이름). 관리자 없이도 지워지는 폴더라 class1·class2를 꼭 구분하세요.</p>
     </div>
-    <div class="warn ask">
-      <p><span class="tag ask">물어보기</span><code>C:\GPKI\Certificate\class2</code>의 <b>내 이름으로 된 업무용 인증서</b>는 학교·교육청 지침을 확인하세요.</p>
-      <p>다른 사람 이름의 인증서가 보여도 직접 지우지 말고 정보 담당 선생님께 알려 주세요.</p>
+    <div class="warn must">
+      <p><span class="tag must">꼭 확인</span>class2에 <b>앞 사용자 이름의 인증서</b>가 남아 있는 경우도 있어요(실제 학교 PC에서 확인됨). 그것도 개인 인증서이니 정보 담당 선생님께 알려 정리하세요.</p>
     </div>
   </div>
 </details>
@@ -343,15 +474,46 @@ footer p { margin: 4px 0; }
 <details class="step" id="s8">
   <summary><span class="num">8</span><span class="step-title">흔적 정리와 마무리<small>마지막으로 한 번 더</small></span><span class="count"></span><span class="chev" aria-hidden="true"></span></summary>
   <div class="body">
+    <p class="why">파일·기록·연결된 기기처럼 앞 단계에서 빠진 것을 마지막으로 정리합니다. 설정은 <kbd>윈도우 키</kbd> + <kbd>I</kbd>로 열 수 있어요.</p>
     <ul class="checks">
-      <li><label><input type="checkbox" data-id="s8-1"><span class="txt"><b>개인 파일 지우기</b> — 바탕화면·문서·다운로드·사진. <b>2단계 OneDrive 연결 해제를 한 뒤에</b> 하세요. 다 지웠으면 휴지통 비우기.</span></label></li>
-      <li><label><input type="checkbox" data-id="s8-2"><span class="txt"><b>파일 탐색기 기록 지우기</b><span class="where">파일 탐색기 → ⋯ → 옵션 → 일반 → 개인 정보 보호 → 지우기</span></span></label></li>
-      <li><label><input type="checkbox" data-id="s8-3"><span class="txt"><b>클립보드 기록 지우기</b><span class="where">설정 → 시스템 → 클립보드 → 클립보드 데이터 지우기</span></span></label></li>
-      <li><label><input type="checkbox" data-id="s8-4"><span class="txt"><b>휴대폰과 연결</b> — 내 휴대폰을 연결해 두었다면 앱에서 연결 해제</span></label></li>
-      <li><label><input type="checkbox" data-id="s8-5"><span class="txt"><b>윈도우 설정의 개인 계정</b> — 개인 메일·마이크로소프트 계정이 있으면 제거<span class="where">설정 → 계정 → 이메일 및 계정</span></span></label></li>
-      <li><label><input type="checkbox" data-id="s8-6"><span class="txt"><b>휴대폰으로 '로그인한 기기' 확인</b> — 구글·네이버·카카오·마이크로소프트 계정의 기기 목록에 이 PC가 남아 있으면 로그아웃<span class="where">구글: <a href="https://myaccount.google.com/device-activity" target="_blank" rel="noopener">myaccount.google.com/device-activity</a></span></span></label></li>
+      <li><label><input type="checkbox" data-id="s8-1"><span class="txt"><b>개인 파일 지우기</b> — <b>2단계 OneDrive 연결 해제를 한 뒤에</b> 하세요.<ol class="howto">
+        <li>파일 탐색기 열기(<kbd>윈도우 키</kbd> + <kbd>E</kbd>)</li>
+        <li>왼쪽에서 <b>바탕 화면 → 문서 → 다운로드 → 사진 → 동영상 → 음악</b>을 차례로 열어 개인 파일을 지웁니다.</li>
+        <li><b>문서\카카오톡 받은 파일</b>, 연결 해제 뒤 남은 <b>OneDrive</b> 폴더(<code>C:\Users\(내 이름)\OneDrive…</code>)도 확인</li>
+        <li>다 지웠으면 바탕 화면의 <b>휴지통</b> 오른쪽 클릭 → <b>휴지통 비우기</b></li>
+      </ol><span class="tip">다운로드 폴더는 위쪽 '정렬' → '수정한 날짜'로 보면 찾기 쉬워요.</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s8-2"><span class="txt"><b>파일 탐색기 기록 지우기</b> — 최근에 연 파일·폴더 목록<ol class="howto">
+        <li>파일 탐색기 위쪽 <b>⋯</b>(더 보기) → <b>옵션</b> (윈도우 10은 '보기' → '옵션')</li>
+        <li><b>일반</b> 탭 맨 아래 <b>개인 정보 보호</b></li>
+        <li><b>파일 탐색기 기록 지우기</b> 옆 <b>지우기</b> → <b>확인</b></li>
+      </ol></span></label></li>
+      <li><label><input type="checkbox" data-id="s8-3"><span class="txt"><b>시작 메뉴의 '최근에 연 항목' 지우기</b><ol class="howto">
+        <li>설정 → <b>개인 설정</b> → <b>시작</b></li>
+        <li><b>최근에 연 항목 표시</b>(시작·점프 목록·파일 탐색기) 스위치를 <b>끄기</b> — 끄면 목록이 지워져요.</li>
+        <li>다음 사람을 위해 다시 켜 두어도 됩니다.</li>
+      </ol></span></label></li>
+      <li><label><input type="checkbox" data-id="s8-4"><span class="txt"><b>클립보드 기록 지우기</b> — 복사했던 글·그림(비밀번호를 복사했을 수도 있어요)<ol class="howto">
+        <li><kbd>윈도우 키</kbd> + <kbd>V</kbd>로 남은 기록 보기</li>
+        <li>설정 → <b>시스템</b> → <b>클립보드</b> → <b>클립보드 데이터 지우기</b> 옆 <b>지우기</b></li>
+        <li><b>고정</b>해 둔 항목은 남아요. <kbd>윈도우 키</kbd> + <kbd>V</kbd> → 항목의 <b>⋯</b> → 삭제</li>
+      </ol></span></label></li>
+      <li><label><input type="checkbox" data-id="s8-5"><span class="txt"><b>휴대폰·블루투스 연결 해제</b><ol class="howto">
+        <li>시작에서 <b>휴대폰과 연결</b> 앱 열기 → 오른쪽 위 톱니(설정) → <b>내 디바이스</b> → 내 휴대폰 <b>⋯</b> → <b>제거</b></li>
+        <li>설정 → <b>블루투스 및 장치</b> → <b>장치</b> → 내 휴대폰·이어폰 <b>⋯</b> → <b>장치 제거</b></li>
+        <li>휴대폰의 'Windows와 연결' 앱에서도 이 PC를 지웁니다.</li>
+      </ol></span></label></li>
+      <li><label><input type="checkbox" data-id="s8-6"><span class="txt"><b>윈도우 설정의 개인 계정 제거</b><ol class="howto">
+        <li>설정 → <b>계정</b> → <b>이메일 및 계정</b></li>
+        <li><b>다른 앱에서 사용하는 계정</b>에 개인 메일·마이크로소프트 계정이 있으면 눌러서 <b>제거</b></li>
+      </ol></span></label></li>
+      <li><label><input type="checkbox" data-id="s8-7"><span class="txt"><b>휴대폰으로 '로그인한 기기' 확인</b> — PC를 떠난 뒤에도 할 수 있어요.<ol class="howto">
+        <li>구글: <a href="https://myaccount.google.com/device-activity" target="_blank" rel="noopener">myaccount.google.com/device-activity</a> → 이 PC → <b>로그아웃</b></li>
+        <li>마이크로소프트: <a href="https://account.microsoft.com/devices" target="_blank" rel="noopener">account.microsoft.com/devices</a></li>
+        <li>네이버: 내정보 → 보안설정에서 로그인 기록·기기 확인</li>
+        <li>카카오: 휴대폰 카카오톡 → 설정 → 기기 연결 관리</li>
+      </ol><span class="tip">걱정되면 비밀번호를 바꾸세요. 대부분의 서비스는 비밀번호를 바꾸면 다른 기기의 로그인이 풀립니다.</span></span></label></li>
     </ul>
-    <div class="warn keep"><p><span class="tag keep">지우지 않기</span><b>학교 도메인으로 로그인하는 윈도우 계정</b>과 <b>업무 파일</b>은 건드리지 마세요.</p></div>
+    <div class="warn keep"><p><span class="tag keep">지우지 않기</span><b>학교 도메인으로 로그인하는 윈도우 계정</b>, 설정 → 계정 → <b>회사 또는 학교 액세스</b>에 있는 학교 연결, <b>업무 파일</b>은 건드리지 마세요.</p></div>
   </div>
 </details>
 
@@ -420,6 +582,27 @@ footer p { margin: 4px 0; }
     syncOpenBtn();
   });
   document.getElementById('btn-print').addEventListener('click', function () { window.print(); });
+
+  // 브라우저 탭
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs [role=tab]'));
+  function selectTab(t) {
+    tabs.forEach(function (x) {
+      var on = x === t;
+      x.setAttribute('aria-selected', on ? 'true' : 'false');
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { selectTab(t); });
+    t.addEventListener('keydown', function (e) {
+      var n = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!n) return;
+      var next = tabs[(i + n + tabs.length) % tabs.length];
+      selectTab(next); next.focus();
+    });
+  });
+  if (tabs.length) selectTab(tabs[0]);
 
   document.getElementById('btn-reset').addEventListener('click', function () {
     if (!confirm('체크 표시를 모두 지울까요? (PC의 파일은 지워지지 않아요)')) return;
