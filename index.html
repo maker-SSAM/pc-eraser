@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PC지우개 — 학교 PC 개인정보 정리 체크리스트</title>
+<meta name="description" content="학교를 옮기거나 교실을 바꿀 때, 업무용 PC에 남은 개인 로그인·브라우저 정보를 안전한 순서로 정리하는 체크리스트">
+<link rel="stylesheet" href="https://maker-ssam.github.io/korean-ofl-fonts/fonts/pretendard/pretendard.css">
+<style>
+:root {
+  --bg: #f6f5f1;
+  --card: #ffffff;
+  --ink: #1f2328;
+  --ink-soft: #57606a;
+  --line: #e2e0d8;
+  --accent: #2f6f5e;
+  --accent-soft: #e3f0eb;
+  --keep: #b42318;
+  --keep-soft: #fdecea;
+  --ask: #9a6700;
+  --ask-soft: #fff4d6;
+  --must: #1f5fbf;
+  --must-soft: #e6effc;
+  --code-bg: #f0eee8;
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16181b;
+    --card: #1f2226;
+    --ink: #e8e6e1;
+    --ink-soft: #a5a9ae;
+    --line: #33373d;
+    --accent: #6cc3a8;
+    --accent-soft: #1d3a32;
+    --keep: #ff8a80;
+    --keep-soft: #3a1f1d;
+    --ask: #f2c14e;
+    --ask-soft: #3a311a;
+    --must: #8ab4ff;
+    --must-soft: #1c2a42;
+    --code-bg: #2a2d32;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #16181b; --card: #1f2226; --ink: #e8e6e1; --ink-soft: #a5a9ae; --line: #33373d;
+  --accent: #6cc3a8; --accent-soft: #1d3a32; --keep: #ff8a80; --keep-soft: #3a1f1d;
+  --ask: #f2c14e; --ask-soft: #3a311a; --must: #8ab4ff; --must-soft: #1c2a42; --code-bg: #2a2d32;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Pretendard", system-ui, -apple-system, "Malgun Gothic", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+header h1 { font-size: 30px; line-height: 1.25; margin: 0 0 6px; letter-spacing: -0.02em; }
+header h1 small { font-size: 16px; font-weight: 500; color: var(--ink-soft); margin-left: 6px; }
+header .lead { margin: 0 0 20px; color: var(--ink-soft); }
+code {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.86em;
+  background: var(--code-bg);
+  padding: 1px 6px;
+  border-radius: 6px;
+  overflow-wrap: anywhere;
+}
+a { color: var(--accent); }
+kbd {
+  font-family: inherit; font-size: 0.85em; border: 1px solid var(--line); border-bottom-width: 2px;
+  border-radius: 6px; padding: 0 6px; background: var(--card);
+}
+
+.notice {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
+.notice ul { margin: 0; padding-left: 20px; }
+.notice li + li { margin-top: 4px; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0 0 18px; font-size: 15px; color: var(--ink-soft); }
+.tag {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+  padding: 1px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+  vertical-align: 1px;
+}
+.tag.keep { color: var(--keep); background: var(--keep-soft); }
+.tag.ask { color: var(--ask); background: var(--ask-soft); }
+.tag.must { color: var(--must); background: var(--must-soft); }
+
+.bar {
+  position: sticky; top: 0; z-index: 5;
+  background: var(--bg);
+  padding: 10px 0 12px;
+  margin-bottom: 6px;
+}
+.bar-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.progress { flex: 1 1 180px; height: 10px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.progress > span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .25s; }
+.progress-text { font-size: 14px; color: var(--ink-soft); min-width: 64px; text-align: right; }
+.tools { display: flex; gap: 6px; flex-wrap: wrap; }
+button {
+  font: inherit; font-size: 14px;
+  color: var(--ink); background: var(--card);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 5px 12px; cursor: pointer;
+}
+button:hover { border-color: var(--accent); }
+button:focus-visible, summary:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+details.step {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin: 12px 0;
+  scroll-margin-top: 64px;
+}
+details.step > summary {
+  list-style: none;
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+}
+details.step > summary::-webkit-details-marker { display: none; }
+.num {
+  flex: none;
+  width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-weight: 700; font-size: 16px;
+  background: var(--accent-soft); color: var(--accent);
+}
+.step.done .num { background: var(--accent); color: var(--card); }
+.step-title { flex: 1; font-weight: 700; font-size: 18px; line-height: 1.35; }
+.step-title small { display: block; font-weight: 400; font-size: 14px; color: var(--ink-soft); }
+.count { flex: none; font-size: 14px; color: var(--ink-soft); }
+.chev { flex: none; width: 10px; height: 10px; border-right: 2px solid var(--ink-soft); border-bottom: 2px solid var(--ink-soft); transform: rotate(45deg); margin: 0 4px 4px; transition: transform .2s; }
+details[open] > summary .chev { transform: rotate(225deg); margin-bottom: -4px; }
+.body { padding: 0 16px 16px 62px; }
+.why { margin: 0 0 10px; color: var(--ink-soft); font-size: 15.5px; }
+
+ul.checks { list-style: none; margin: 0; padding: 0; }
+ul.checks > li { padding: 8px 0; border-top: 1px dashed var(--line); }
+ul.checks > li:first-child { border-top: 0; }
+ul.checks label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+ul.checks input[type=checkbox] { flex: none; width: 20px; height: 20px; margin: 4px 0 0; accent-color: var(--accent); cursor: pointer; }
+ul.checks .txt { flex: 1; }
+ul.checks input:checked + .txt > b { text-decoration: line-through; text-decoration-color: var(--ink-soft); color: var(--ink-soft); }
+.where { display: block; font-size: 15px; color: var(--ink-soft); margin-top: 2px; }
+
+.warn { margin-top: 12px; padding: 10px 14px; border-radius: 10px; font-size: 15.5px; }
+.warn p { margin: 0; }
+.warn p + p { margin-top: 6px; }
+.warn.keep { background: var(--keep-soft); }
+.warn.ask { background: var(--ask-soft); }
+.warn.must { background: var(--must-soft); }
+.warn .tag { background: var(--card); margin-right: 4px; }
+
+.next {
+  margin-top: 26px; padding: 18px;
+  border: 2px dashed var(--line); border-radius: var(--radius);
+}
+.next h2 { font-size: 18px; margin: 0 0 6px; }
+.next p { margin: 0; color: var(--ink-soft); }
+footer { margin-top: 28px; font-size: 14px; color: var(--ink-soft); }
+footer p { margin: 4px 0; }
+
+@media (max-width: 520px) {
+  body { font-size: 16px; }
+  header h1 { font-size: 25px; }
+  .body { padding-left: 16px; }
+  .step-title { font-size: 17px; }
+}
+
+@media print {
+  :root { --bg: #fff; --card: #fff; }
+  body { font-size: 12.5pt; }
+  .bar, .tools, .chev, .no-print { display: none !important; }
+  details.step { break-inside: avoid-page; border-color: #bbb; }
+  .body { display: block !important; padding-left: 16px; }
+  .wrap { padding: 0; }
+  a { color: inherit; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>PC지우개 <small>학교 PC 개인정보 정리 체크리스트</small></h1>
+  <p class="lead">학교를 옮기거나 교실을 바꿀 때, 업무용 PC에 남은 <b>개인 로그인·브라우저 정보</b>를 안전한 순서로 정리합니다. <b>로그아웃·연결 해제가 먼저, 지우기는 나중</b>입니다.</p>
+</header>
+
+<section class="notice" aria-label="먼저 읽어 주세요">
+  <ul>
+    <li><b>교육청·학교 지침이 먼저</b>입니다. 이 목록은 보조 자료예요. 헷갈리면 정보 담당 선생님께 여쭤 보세요.</li>
+    <li>이 목록은 확인된 항목만 안내합니다. <b>모든 개인정보가 지워졌음을 보증하지 않습니다.</b></li>
+    <li><b>지운 것은 되돌릴 수 없습니다.</b> 1단계 백업부터 해 주세요.</li>
+    <li>이 웹페이지는 PC에서 아무것도 지우지 않습니다. 체크 표시는 지금 이 브라우저에만 저장돼요.</li>
+    <li>메뉴 이름은 윈도우·프로그램 버전에 따라 조금 다를 수 있습니다(윈도우 11 기준).</li>
+  </ul>
+</section>
+
+<div class="legend" aria-label="표시 설명">
+  <span><span class="tag keep">지우지 않기</span> 학교 것 — 다음 사람도 써요</span>
+  <span><span class="tag ask">물어보기</span> 내 이름의 업무 계정 — 학교 지침 확인</span>
+  <span><span class="tag must">꼭 확인</span> 놓치기 쉬운 것</span>
+</div>
+
+<div class="bar">
+  <div class="bar-row">
+    <div class="progress" role="progressbar" aria-label="진행" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress-fill"></span></div>
+    <span class="progress-text" id="progress-text">0 / 0</span>
+    <div class="tools">
+      <button type="button" id="btn-open">모두 펼치기</button>
+      <button type="button" id="btn-print">인쇄</button>
+      <button type="button" id="btn-reset">체크 지우기</button>
+    </div>
+  </div>
+</div>
+
+<main id="steps">
+
+<details class="step" id="s1" open>
+  <summary><span class="num">1</span><span class="step-title">백업 먼저<small>지우기 전에 챙길 것</small></span><span class="count"></span><span class="chev" aria-hidden="true"></span></summary>
+  <div class="body">
+    <p class="why">지운 것은 되돌릴 수 없어요. 새 학교·새 PC에서 쓸 것을 먼저 옮겨 둡니다.</p>
+    <ul class="checks">
+      <li><label><input type="checkbox" data-id="s1-1"><span class="txt"><b>개인 공동인증서 옮기기</b> — 은행·인증서 프로그램의 '인증서 내보내기(복사)'로 USB나 휴대폰에 옮겨 두세요.<span class="where">저장 위치: <code>C:\Users\(내 이름)\AppData\LocalLow\NPKI</code></span></span></label></li>
+      <li><label><input type="checkbox" data-id="s1-2"><span class="txt"><b>개인 파일 옮기기</b> — 바탕화면·문서·다운로드·사진 폴더의 개인 파일을 USB나 개인 클라우드로.</span></label></li>
+      <li><label><input type="checkbox" data-id="s1-3"><span class="txt"><b>업무 파일은 학교 방식대로</b> — 인계할 파일, 학교 공유 폴더에 둘 파일을 정리해 두세요.</span></label></li>
+      <li><label><input type="checkbox" data-id="s1-4"><span class="txt"><b>개인 북마크 내보내기</b> — 브라우저 동기화를 안 썼다면 북마크 관리자에서 '내보내기'로 저장해 두세요.</span></label></li>
+    </ul>
+    <div class="warn ask"><p><span class="tag ask">물어보기</span><b>내 이름으로 된 업무용 인증서</b>(행정전자서명 GPKI 개인용)는 새 학교에서도 쓰는지 학교·교육청 지침을 확인하고, 필요하면 함께 옮기세요.</p></div>
+  </div>
+</details>
+
+<details class="step" id="s2">
+  <summary><span class="num">2</span><span class="step-title">OneDrive 확인과 연결 해제<small>지우기 전에 반드시 먼저</small></span><span class="count"></span><span class="chev" aria-hidden="true"></span></summary>
+  <div class="body">
+    <p class="why">OneDrive가 연결된 채로 PC에서 파일을 지우면 <b>클라우드에서도 함께 지워질 수 있어요.</b> 그래서 연결 해제가 먼저입니다.</p>
+    <ul class="checks">
+      <li><label><input type="checkbox" data-id="s2-1"><span class="txt"><b>바탕화면·문서가 OneDrive 안에 있는지 확인</b> — 파일 탐색기에서 바탕화면 폴더를 열었을 때 주소에 'OneDrive'가 보이면 OneDrive 안에 있는 거예요.<span class="where">작업 표시줄 구름 아이콘 → 톱니(설정) → 설정 → 동기화 및 백업 → 백업 관리</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s2-2"><span class="txt"><b>개인 계정 OneDrive 연결 해제</b><span class="where">구름 아이콘 → 톱니 → 설정 → 계정 → 이 PC 연결 해제</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s2-3"><span class="txt"><b>연결 해제한 뒤에</b> PC에 남은 OneDrive 폴더의 개인 파일을 정리 (8단계에서)</span></label></li>
+    </ul>
+    <div class="warn must"><p><span class="tag must">꼭 확인</span><b>연결된 채로 바탕화면·문서 파일을 지우지 마세요.</b> 바탕화면이 OneDrive 안에 있는 PC가 실제로 있습니다.</p></div>
+    <div class="warn ask"><p><span class="tag ask">물어보기</span><b>학교 계정 OneDrive</b>(내 이름의 학교 마이크로소프트 계정)는 연결 해제해도 되는지 학교 지침을 확인하세요.</p></div>
+  </div>
+</details>
+
+<details class="step" id="s3">
+  <summary><span class="num">3</span><span class="step-title">앱 로그아웃<small>지우기 전에 앱 안에서 로그아웃</small></span><span class="count"></span><span class="chev" aria-hidden="true"></span></summary>
+  <div class="body">
+    <p class="why">앱을 지우기만 하면 로그인 정보가 PC에 남을 수 있어요. 먼저 앱 안에서 로그아웃합니다.</p>
+    <ul class="checks">
+      <li><label><input type="checkbox" data-id="s3-1"><span class="txt"><b>카카오톡 PC</b> — 설정에서 로그아웃.<span class="where">휴대폰 카카오톡의 '기기 연결 관리'에서도 이 PC가 빠졌는지 확인</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s3-2"><span class="txt"><b>개인 클라우드</b> — 구글 드라이브, 네이버 MYBOX, 드롭박스 등에서 로그아웃(계정 연결 해제)</span></label></li>
+      <li><label><input type="checkbox" data-id="s3-3"><span class="txt"><b>한컴독스(한컴스페이스)</b> — 한글 프로그램 오른쪽 위 계정에서 로그아웃</span></label></li>
+      <li><label><input type="checkbox" data-id="s3-4"><span class="txt"><b>그 밖에 내 계정으로 로그인한 앱</b> — 어도비, 노션, 메모 앱, 디자인 앱 등</span></label></li>
+    </ul>
+    <div class="warn keep"><p><span class="tag keep">지우지 않기</span><b>학교 메신저, 업무포털, 나이스·에듀파인 관련 프로그램</b>은 그대로 두세요.</p></div>
+  </div>
+</details>
+
+<details class="step" id="s4">
+  <summary><span class="num">4</span><span class="step-title">브라우저 정리<small>크롬·엣지·웨일 각각</small></span><span class="count"></span><span class="chev" aria-hidden="true"></span></summary>
+  <div class="body">
+    <p class="why">동기화를 먼저 끄지 않고 지우면 다른 기기의 북마크·비밀번호까지 지워질 수 있어요. 순서대로 해 주세요. 쓰는 브라우저마다 반복합니다.</p>
+    <ul class="checks">
+      <li><label><input type="checkbox" data-id="s4-1"><span class="txt"><b>프로필이 몇 개인지 보기</b> — 오른쪽 위 프로필 그림을 누르면 이 PC의 프로필이 모두 보여요.</span></label></li>
+      <li><label><input type="checkbox" data-id="s4-2"><span class="txt"><b>동기화 끄기 → 로그아웃</b><span class="where">설정 → (크롬) 나와 Google / (엣지·웨일) 프로필·계정 → 동기화 끄기, 로그아웃</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s4-3"><span class="txt"><b>저장된 비밀번호·쿠키·자동 완성 지우기</b> — <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Delete</kbd>, 기간 '전체 기간'. 비밀번호·자동 완성은 '고급'에 있어요.</span></label></li>
+      <li><label><input type="checkbox" data-id="s4-4"><span class="txt"><b>개인 프로필 삭제</b> — 프로필 관리 화면에서 내 프로필을 삭제</span></label></li>
+      <li><label><input type="checkbox" data-id="s4-5"><span class="txt"><b>크롬·엣지·웨일 모두 했는지</b> — 잘 안 쓰는 브라우저에도 로그인이 남아 있을 수 있어요.</span></label></li>
+    </ul>
+    <div class="warn ask"><p><span class="tag ask">물어보기</span><b>웨일 스페이스·학교 마이크로소프트 계정</b>처럼 내 이름의 교육용 계정으로 로그인한 프로필은 정리해도 되는지 확인하세요.</p></div>
+    <div class="warn must"><p><span class="tag must">꼭 확인</span>브라우저 화면에는 안 보이는데 <b>예전 프로필 폴더가 PC에 남아 있는 경우</b>가 있습니다(실제 학교 PC에서 확인됨). 아래 2단계 점검 프로그램으로 찾을 수 있게 준비하고 있어요.</p></div>
+  </div>
+</details>
+
+<details class="step" id="s5">
+  <summary><span class="num">5</span><span class="step-title">개인 앱 지우기<small>내가 설치한 앱만</small></span><span class="count"></span><span class="chev" aria-hidden="true"></span></summary>
+  <div class="body">
+    <p class="why">3단계에서 로그아웃한 뒤에 지웁니다.</p>
+    <ul class="checks">
+      <li><label><input type="checkbox" data-id="s5-1"><span class="txt"><b>설치된 앱 목록 보기</b><span class="where">설정 → 앱 → 설치된 앱 → 정렬 기준: 설치 날짜 (윈도우 10은 '앱 및 기능')</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s5-2"><span class="txt"><b>내가 설치한 개인 앱 제거</b> — 앱 오른쪽 ⋯ → 제거.<span class="where">설치 날짜는 '업데이트한 날'일 수 있고, 날짜가 없는 앱도 많아요. 날짜보다 이름을 보고 고르세요.</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s5-3"><span class="txt"><b>관리자 암호 창이 뜨는 앱</b> — 지우지 말고 목록을 적어 정보 담당 선생님께 부탁하세요.</span></label></li>
+      <li><label><input type="checkbox" data-id="s5-4"><span class="txt"><b>원격 접속 프로그램</b>(크롬 원격 데스크톱, 팀뷰어, 애니데스크 등) — 내 계정으로 연결해 둔 것이 있으면 연결을 끊고 지우세요.<span class="where">크롬 원격 데스크톱: <a href="https://remotedesktop.google.com/access" target="_blank" rel="noopener">remotedesktop.google.com/access</a>에서 이 PC 삭제</span></span></label></li>
+    </ul>
+    <div class="warn must"><p><span class="tag must">꼭 확인</span><b>원격 접속 프로그램</b>이 내 계정에 연결된 채로 남으면, 다른 사람이 쓰는 이 PC에 밖에서 들어올 수 있는 길이 남습니다.</p></div>
+    <div class="warn keep"><p><span class="tag keep">지우지 않기</span><b>업무포털·학교 메신저, 인증서·보안 프로그램</b>(이름에 INISAFE, CrossEX, KSign, AnySign 등이 들어간 것), <b>프린터 드라이버</b>는 그대로 두세요. 모르는 이름은 지우지 마세요.</p></div>
+  </div>
+</details>
+
+<details class="step" id="s6">
+  <summary><span class="num">6</span><span class="step-title">윈도우 자격 증명 정리<small>윈도우가 기억하는 암호</small></span><span class="count"></span><span class="chev" aria-hidden="true"></span></summary>
+  <div class="body">
+    <p class="why">앱을 지운 뒤에도 윈도우가 그 앱의 로그인 정보를 기억하고 있을 수 있어요.</p>
+    <ul class="checks">
+      <li><label><input type="checkbox" data-id="s6-1"><span class="txt"><b>자격 증명 관리자 열기</b><span class="where">시작 → '자격 증명 관리자' 검색 (제어판 → 사용자 계정 → 자격 증명 관리자)</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s6-2"><span class="txt"><b>Windows 자격 증명</b>에서 개인 서비스 항목만 제거 — 예: 개인 깃허브, 개인 메일, 개인 클라우드</span></label></li>
+      <li><label><input type="checkbox" data-id="s6-3"><span class="txt"><b>웹 자격 증명</b> 탭도 같은 방법으로 확인</span></label></li>
+    </ul>
+    <div class="warn keep"><p><span class="tag keep">지우지 않기</span><b>IP 주소</b>(예: <code>192.168.…</code>)나 <b>학교 서버·NAS·프린터</b> 이름이 들어간 항목은 그대로 두세요. 다음 선생님이 학교 공유 폴더·프린터를 못 쓰게 될 수 있어요.</p></div>
+    <div class="warn ask"><p><span class="tag ask">물어보기</span>무엇인지 모르는 항목은 지우지 말고 정보 담당 선생님께 여쭤 보세요.</p></div>
+  </div>
+</details>
+
+<details class="step" id="s7">
+  <summary><span class="num">7</span><span class="step-title">인증서 정리<small>1단계에서 백업한 뒤에</small></span><span class="count"></span><span class="chev" aria-hidden="true"></span></summary>
+  <div class="body">
+    <p class="why">개인 공동인증서와 업무용 인증서는 <b>있는 폴더가 다릅니다.</b></p>
+    <ul class="checks">
+      <li><label><input type="checkbox" data-id="s7-1"><span class="txt"><b>개인 공동인증서 삭제</b> — 은행·인증서 프로그램의 '인증서 관리 → 삭제'로 지우세요. 백업이 됐는지 먼저 확인!<span class="where">개인 인증서 폴더: <code>C:\Users\(내 이름)\AppData\LocalLow\NPKI</code>, <code>C:\Program Files\NPKI</code> (이쪽은 관리자가 필요할 수 있어요)</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s7-2"><span class="txt"><b>휴대폰·USB에 옮긴 인증서로 로그인이 되는지</b> 한 번 확인</span></label></li>
+    </ul>
+    <div class="warn keep">
+      <p><span class="tag keep">지우지 않기</span><b><code>C:\GPKI</code> 폴더</b>는 업무용(행정전자서명) 인증서 자리예요. 그중 <code>Certificate\class1</code>은 <b>학교 기관 인증서</b>입니다. 관리자 없이도 지워지는 폴더라 특히 조심하세요.</p>
+    </div>
+    <div class="warn ask">
+      <p><span class="tag ask">물어보기</span><code>C:\GPKI\Certificate\class2</code>의 <b>내 이름으로 된 업무용 인증서</b>는 학교·교육청 지침을 확인하세요.</p>
+      <p>다른 사람 이름의 인증서가 보여도 직접 지우지 말고 정보 담당 선생님께 알려 주세요.</p>
+    </div>
+  </div>
+</details>
+
+<details class="step" id="s8">
+  <summary><span class="num">8</span><span class="step-title">흔적 정리와 마무리<small>마지막으로 한 번 더</small></span><span class="count"></span><span class="chev" aria-hidden="true"></span></summary>
+  <div class="body">
+    <ul class="checks">
+      <li><label><input type="checkbox" data-id="s8-1"><span class="txt"><b>개인 파일 지우기</b> — 바탕화면·문서·다운로드·사진. <b>2단계 OneDrive 연결 해제를 한 뒤에</b> 하세요. 다 지웠으면 휴지통 비우기.</span></label></li>
+      <li><label><input type="checkbox" data-id="s8-2"><span class="txt"><b>파일 탐색기 기록 지우기</b><span class="where">파일 탐색기 → ⋯ → 옵션 → 일반 → 개인 정보 보호 → 지우기</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s8-3"><span class="txt"><b>클립보드 기록 지우기</b><span class="where">설정 → 시스템 → 클립보드 → 클립보드 데이터 지우기</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s8-4"><span class="txt"><b>휴대폰과 연결</b> — 내 휴대폰을 연결해 두었다면 앱에서 연결 해제</span></label></li>
+      <li><label><input type="checkbox" data-id="s8-5"><span class="txt"><b>윈도우 설정의 개인 계정</b> — 개인 메일·마이크로소프트 계정이 있으면 제거<span class="where">설정 → 계정 → 이메일 및 계정</span></span></label></li>
+      <li><label><input type="checkbox" data-id="s8-6"><span class="txt"><b>휴대폰으로 '로그인한 기기' 확인</b> — 구글·네이버·카카오·마이크로소프트 계정의 기기 목록에 이 PC가 남아 있으면 로그아웃<span class="where">구글: <a href="https://myaccount.google.com/device-activity" target="_blank" rel="noopener">myaccount.google.com/device-activity</a></span></span></label></li>
+    </ul>
+    <div class="warn keep"><p><span class="tag keep">지우지 않기</span><b>학교 도메인으로 로그인하는 윈도우 계정</b>과 <b>업무 파일</b>은 건드리지 마세요.</p></div>
+  </div>
+</details>
+
+</main>
+
+<section class="next">
+  <h2>2단계: 점검 프로그램 (준비 중)</h2>
+  <p>이 PC에 무엇이 남아 있는지 <b>읽기만</b> 해서 보여 주는 프로그램을 만들고 있어요. 브라우저 화면에 안 보이는 프로필, 자격 증명, 인증서, 설치한 앱을 한 번에 확인할 수 있게 합니다. 아무것도 지우지 않고, 결과를 어디로도 보내지 않습니다.</p>
+</section>
+
+<footer>
+  <p>이 목록은 확인된 항목만 안내합니다. 모든 개인정보가 지워졌음을 보증하지 않습니다.</p>
+  <p>만든 사람 <a href="https://maker-ssam.github.io/">maker_ssam</a> · <a href="https://github.com/maker-SSAM/pc-eraser">GitHub</a></p>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var KEY = 'pc-eraser-checks-v1';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('ul.checks input[type=checkbox]'));
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  boxes.forEach(function (b) { if (saved[b.dataset.id]) b.checked = true; });
+
+  function update() {
+    var done = 0;
+    boxes.forEach(function (b) { if (b.checked) done++; });
+    var pct = boxes.length ? Math.round(done / boxes.length * 100) : 0;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.querySelector('.progress').setAttribute('aria-valuenow', pct);
+    document.getElementById('progress-text').textContent = done + ' / ' + boxes.length;
+    document.querySelectorAll('details.step').forEach(function (step) {
+      var bs = step.querySelectorAll('ul.checks input[type=checkbox]');
+      var n = 0;
+      bs.forEach(function (b) { if (b.checked) n++; });
+      step.querySelector('.count').textContent = n + '/' + bs.length;
+      step.classList.toggle('done', n === bs.length && bs.length > 0);
+    });
+  }
+  function save() {
+    var s = {};
+    boxes.forEach(function (b) { if (b.checked) s[b.dataset.id] = 1; });
+    try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
+  }
+  boxes.forEach(function (b) { b.addEventListener('change', function () { save(); update(); }); });
+
+  var steps = document.querySelectorAll('details.step');
+  var openBtn = document.getElementById('btn-open');
+  function allOpen() { return Array.prototype.every.call(steps, function (d) { return d.open; }); }
+  function syncOpenBtn() { openBtn.textContent = allOpen() ? '모두 접기' : '모두 펼치기'; }
+  openBtn.addEventListener('click', function () {
+    var open = !allOpen();
+    steps.forEach(function (d) { d.open = open; });
+    syncOpenBtn();
+  });
+  steps.forEach(function (d) { d.addEventListener('toggle', syncOpenBtn); });
+
+  var before = [];
+  window.addEventListener('beforeprint', function () {
+    before = Array.prototype.map.call(steps, function (d) { return d.open; });
+    steps.forEach(function (d) { d.open = true; });
+  });
+  window.addEventListener('afterprint', function () {
+    steps.forEach(function (d, i) { if (before.length) d.open = before[i]; });
+    syncOpenBtn();
+  });
+  document.getElementById('btn-print').addEventListener('click', function () { window.print(); });
+
+  document.getElementById('btn-reset').addEventListener('click', function () {
+    if (!confirm('체크 표시를 모두 지울까요? (PC의 파일은 지워지지 않아요)')) return;
+    boxes.forEach(function (b) { b.checked = false; });
+    save(); update();
+  });
+
+  update(); syncOpenBtn();
+})();
+</script>
+<!-- 방문 집계: Cloudflare Web Analytics(쿠키 없음). 실제 주소에서만 불러와 로컬 미리보기는 세지 않는다 -->
+<script>if(location.hostname==='maker-ssam.github.io'){var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token": "50978c2fd5224087936fd5e326e45675"}');document.body.appendChild(s);}</script>
+</body>
+</html>
